@@ -1,12 +1,10 @@
-import streamlit as st
 import openai
-from dotenv import load_dotenv
 import os
-# Set your OpenAI API key here
+from dotenv import load_dotenv
+import streamlit as st
+
+# Set your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-
-  # Replace with your actual API key
 
 # Function to generate the story using chat-based model
 def generate_story(genre, character_trait, setting, tone):
@@ -28,17 +26,17 @@ def generate_story(genre, character_trait, setting, tone):
     ]
 
     try:
-        # Use the correct chat model API
-        response = openai.ChatCompletion.create(
+        # Use the new API interface
+        response = openai.Completion.create(
             model="gpt-3.5-turbo",  # Chat model
-            messages=messages,
+            prompt=prompt_template,  # Directly use the prompt here
             max_tokens=500,  # Limit the length of the story
             temperature=0.7,  # Adjust for creativity
             top_p=1.0,  # Sampling strategy (can be adjusted)
             frequency_penalty=0.0,  # How much to penalize new topics
             presence_penalty=0.0  # How much to penalize repetition
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response['choices'][0]['text'].strip()
     except Exception as e:
         return f"An error occurred: {e}"
 
