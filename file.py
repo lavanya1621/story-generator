@@ -2,6 +2,9 @@ import openai
 import os
 from dotenv import load_dotenv
 import streamlit as st
+from openai import OpenAI
+
+client = OpenAI()
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -27,7 +30,7 @@ def generate_story(genre, character_trait, setting, tone):
 
     try:
         # Use the new API interface
-        response = openai.Completion.create(
+        response =client.completions.create(
             model="gpt-3.5-turbo",  # Chat model
             prompt=prompt_template,  # Directly use the prompt here
             max_tokens=500,  # Limit the length of the story
