@@ -1,0 +1,20 @@
+# Ignore environment files
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore log files
+*.log
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Streamlit's temporary files
+.streamlit/
+
+# Ignore node_modules (if using npm or yarn)
+node_modules/
+
