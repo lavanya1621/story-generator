@@ -27,7 +27,7 @@ def generate_story(genre, character_trait, setting, tone):
 
     try:
         # Use the new API interface
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model="gpt-3.5-turbo",  # Chat model
             prompt=prompt_template,  # Directly use the prompt here
             max_tokens=500,  # Limit the length of the story
