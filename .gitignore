@@ -16,5 +16,6 @@ Thumbs.db
 .streamlit/
 
 # Ignore node_modules (if using npm or yarn)
+
 node_modules/
 
