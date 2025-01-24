@@ -1,20 +1,20 @@
-import openai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import streamlit as st
 
-
-
-
-
+load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY")
+)
 
-# Function to generate the story using chat-based model
+
+# Function to generate the story using the updated API interface
 def generate_story(genre, character_trait, setting, tone):
     # Construct the personalized prompt template using user inputs
-    prompt_template = f"""
+    prompt = f"""
     You are a masterful storyteller, known for creating vivid worlds and compelling characters. Your task is to write a {genre} story that draws the reader into a world that gives MAJOR VIBES OF {setting}.
     The main character in this story has this {character_trait}, and this personality should guide their actions and decisions throughout the narrative. 
     The tone of the story is {tone}, and it should resonate throughout, from the opening to the closing scene. 
@@ -23,25 +23,22 @@ def generate_story(genre, character_trait, setting, tone):
     Consider how the character's {character_trait} trait influences the world around them and the decisions they make. 
     Allow the {tone} atmosphere to influence the progression of the plot—whether it's tension, warmth, or humor. Make every detail count.
     """
-
-    # Create the message list for chat model
-    messages = [
-        {"role": "system", "content": "You are a master storyteller with an exceptional ability to capture the reader's attention."},
-        {"role": "user", "content": prompt_template}
-    ]
-
+    
     try:
-        # Use the new API interface
-        response = openai.chat.completions.create(
-            model="gpt-3.5-turbo",  # Chat model
-            prompt=prompt_template,  # Directly use the prompt here
-            max_tokens=500,  # Limit the length of the story
-            temperature=0.7,  # Adjust for creativity
-            top_p=1.0,  # Sampling strategy (can be adjusted)
-            frequency_penalty=0.0,  # How much to penalize new topics
-            presence_penalty=0.0  # How much to penalize repetition
+        # Use the new `openai.ChatCompletion` interface
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a master storyteller with an exceptional ability to capture the reader's attention."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=500,
+            temperature=0.7,
         )
-        return response['choices'][0]['text'].strip()
+
+        # Access the generated story
+        story = response.choices[0].message.content.strip()
+        return story
     except Exception as e:
         return f"An error occurred: {e}"
 
