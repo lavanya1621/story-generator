@@ -12,8 +12,5 @@
 2. Let the app generate a unique story for you.
 3. Enjoy and experiment with inputs for varied results.
 
-## Try It Out
-[**Story Generator App**](https://story-gen-erator.streamlit.app/) Click on the link,
-
 This project highlights advanced AI prompt engineering, personalization, and user-focused app development. Perfect for creative exploration!
 
